@@ -1,3 +1,4 @@
+const { Association } = require("sequelize");
 let db = require("../db/models")
 
 module.exports = {
@@ -9,5 +10,13 @@ module.exports = {
             })
             .catch(err => reject([]));
         })
-    }
+    },
+
+    getBy: async function(id) {
+        try {
+            return await db.Generos.findByPk(id);
+        } catch (error) {
+            console.log(error);
+            }
+        }
 }

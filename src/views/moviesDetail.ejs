@@ -17,9 +17,14 @@
     <p>AWARDS: <%= movie.awards %> </p>
     <p>LENGTH: <%= movie.length + ' min'%> </p>
     <p>RELEASE DATE: <%= movie.release_date %> </p>
+    <p>GENERO: <%= generos[movie.genre_id].dataValues.name %> </p>
 
-    <a href="/movies/add"><button>Agregar</button></a>
+    <a href="/movies/add"><button>Agregar Pelicula</button></a>
     <a href="/movies/"><button>Listado de Peliculas</button></a>
+    <a href="/movies/edit/<%= movie.id %>"><button>Editar Pelicula</button></a>
+    <form action="/movies/<%=movie.id%>?_method=DELETE" method="POST">
+        <button type= "submit" >Borrar Pelicula</button> 
+    </form>
 
 </body>
 </html>
