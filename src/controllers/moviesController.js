@@ -14,8 +14,9 @@ module.exports = {
 
     edit: async function(req, res) {
         try {
-            let pelicula = await peliculaService.getBy(req.params.id); 
-            res.render("editMovie", {pelicula: pelicula})
+            let pelicula = await peliculaService.getBy(req.params.id);
+            let generos = await genreService.getAll(); 
+            res.render("editMovie", {pelicula: pelicula, generos: generos})
         } catch (error) {
             res.send("Error al recuperar la peli")            
         }
@@ -23,8 +24,9 @@ module.exports = {
 
     getOne: async function(req, res) {
         try {
-            let pelicula = await peliculaService.getBy(req.params.id); 
-            res.render("moviesDetail", {movie: pelicula})
+            let pelicula = await peliculaService.getBy(req.params.id);
+            let generos = await genreService.getAll()
+            res.render("moviesDetail", {movie: pelicula, generos: generos})
         } catch (error) {
             res.send("Error al recuperar la peli")            
         }
@@ -33,7 +35,7 @@ module.exports = {
     update: async function (req, res) {
         try {
             await peliculaService.updateBy(req.body, req.params.id)
-            res.redirect("/movies/req.params.id")
+            res.redirect("/movies/" + req.params.id)
         } catch (error) {
             res.send("no se pudo editar")
         }
@@ -45,6 +47,24 @@ module.exports = {
             res.render("createMovie", {generos: generos})
         } catch (error) {
             res.send("ha ocurrido un error")
+        }
+    },
+
+    newMovie: async function (req,res){
+        try {
+            let newCreatedMovie = await peliculaService.createNew(req.body);
+            res.redirect("/movies/" + newCreatedMovie.id);
+        } catch (error) {
+            res.send("No se pudo crear!!");
+        }
+    }, 
+
+    delete: async function (req,res){
+        try {
+            await peliculaService.destroyMovie(req.params.id);
+            res.redirect('/movies')
+        } catch (error) {
+            res.send ('No se pudo eliminar')
         }
     }
 }
